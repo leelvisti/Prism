@@ -1,0 +1,11 @@
+https://blog.expo.io/instagram-clone-using-firebase-react-native-expo-cc32f61c7bba
+https://medium.com/@jamesmarino/getting-started-with-react-native-and-firebase-ab1f396db549
+https://facebook.github.io/react-native/docs/touchableopacity
+https://www.tutorialspoint.com/react_native/react_native_state.htm
+https://firebase.google.com/docs/web/setup
+https://www.youtube.com/watch?v=A1MtUNujr9s
+https://medium.com/@dooboolab/types-of-navigation-in-react-navigation-v2-bce6d24d94ec
+https://rnfirebase.io/docs/v3.3.x/auth/social-auth
+https://medium.com/mesan-digital/how-to-build-a-react-native-app-using-firebase-part-2-f2934da0926d
+https://blog.expo.io/using-expos-facebook-api-3b24d8f9ab3d
+https://aboutreact.com/react-native-show-message-for-empty-flatlist/
