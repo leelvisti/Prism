@@ -1,49 +1,147 @@
 import React from 'react';
-import { Flatlist, StyleSheet, Text, View, Image ,ImageBackground} from 'react-native';
+import {TouchableOpacity,TextInput,FlatList, StyleSheet, Text, View, Image,ImageBackground } from 'react-native';
 import {f, auth, database, storage } from '../../config/config.js';
 import Header from '../components/Header.js'
 import Button from '../components/Button.js'
 import Input from '../components/Input.js';
-//import Chatkit from '@pusher/chatkit-server';
+import AlbumList from '../components/AlbumList.js';
+import Card from '../components/Card.js';
+import CardSection from '../components/CardSection.js';
+import {FontAwesome} from '@expo/vector-icons';
 
 class dm extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      loggedin: false
+      loggedin: false,
+      FollowingList:[],
+      refresh: false
     }
   }
 
-  
   componentDidMount = () =>{
-    var that = this;
-
-    
+    var that = this
     f.auth().onAuthStateChanged(function(user){
       if(user){
         //logged in
         that.setState({
           loggedin: true
         });
-      }else{
-        //not logged in
-        that.setState({
-          loggedin: false
-        });
+      }
+    });
+    var currentUID = f.auth().currentUser.uid;
+    database.ref('Users').child(currentUID).once('value').then(function(snapshot){
+      const exists = (snapshot.val() !== null);
+        if (exists){
+          data = snapshot.val();
+          that.setState({userName: data.userName});
+     }
+    });
+    console.log(that.state.userName);
+    that.fetchFollowingList();
+  }
+  
+  addToList = (FollowingList, u, data) =>{
+    var that = this;
+    var fObj = data[u];
+    var currentUID = f.auth().currentUser.uid;
+    if (!!fObj.roomId){
+      var roomId =fObj.roomId;
+    }else{
+      var roomId = that.createId();
+      database.ref('Users/'+currentUID+'/Following/'+u).child('roomId').set(roomId);
+      database.ref('Users/'+u+'/Following/'+currentUID).child('roomId').set(roomId);
+    }
+    database.ref('Users/' + u + '/Following').once('value', function(snapshot){
+       if (snapshot.hasChild(currentUID)){
+        database.ref('Users').child(u).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if (exists) data = snapshot.val();
+            FollowingList.push({
+              id: u,
+              userName: data.userName,
+              profilePic: data.profilePic,
+              roomId: roomId
+            });
+            that.setState({
+              refresh: false,
+              FollowingList:FollowingList
+            });
+                                                          console.log(FollowingList);
+          }).catch(error => console.log(error));
       }
     });
   }
-
+  
+  fetchFollowingList = () => {
+    this.setState({
+      FollowingList: [],
+      refresh:true,
+    });
+    var that = this;
+    var currentUID = f.auth().currentUser.uid;
+    database.ref('Users/'+currentUID+'/Following').once('value').then(function(snapshot){
+      const exists = (snapshot.val() !== null);
+      if (exists){
+          // add notification
+        data = snapshot.val()
+                                                                    
+        var FollowingList = that.state.FollowingList;
+        for(var u in data){
+          that.addToList(FollowingList, u, data);
+        }
+                                                                    
+      }
+    }).catch(error => console.log(error));
+  }
+  
+  reload = () =>{
+    this.fetchFollowingList();
+  }
+  
+  randomString = () =>{
+    return Math.floor((1+ Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+  }
+  
+  createId = () => {
+    return this.randomString() + this.randomString() + '-' + this.randomString() + '-' + this.randomString() + '-' + this.randomString() + '-' + this.randomString() + '-' + this.randomString() + '-' + this.randomString();
+  }
+  
   render(){
     return(
-           <View style = {{flex: 1}}>
-           <ImageBackground source={require('../images/gradient.jpeg')} style={{width: '100%', height: '100%'}} >
-           <Header texto='MSG' />
+     <View style = {{flex: 1}}>
+     <ImageBackground source={require('../images/gradient.jpeg')} style={{width: '100%', height: '100%'}} >
+     <Header texto='Message' />
 
         { this.state.loggedin == true ?(
           // logged in
-          <View>
-            <Text>'Message'</Text>
+          <View >
+            <FlatList
+              refreshing = {this.state.refresh}
+              onRefresh = {this.reload}
+              data = {this.state.FollowingList}
+              keyExtractor = {(item, index) => index.toString()}
+              renderItem={({item, index}) => (
+                <View style={styles.container}>
+                  <Image source={{ uri: item.profilePic }} style={styles.thumbnailStyle} />
+                  <View style={styles.contentContainer}>
+                    <View style={{flexDirection: 'row'}}>
+                      <TouchableOpacity onPress = { () => this.props.navigation.navigate('User', {userId: item.id})}>
+                        <Text style={{color: '#48384f', fontSize: 16}}>@{item.userName}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress = { () => this.props.navigation.navigate('Chat', {username: this.state.userName, roomId: item.roomId, receiveId: item.id})}>
+                        <Text style={{color: '#48384f', fontSize: 16}}>     PM</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                                              
+                  <View>
+                  </View>
+                </View>
+              )}
+             />
           </View>
         ) : (
           <View style={styles.alertStyle}>
@@ -51,7 +149,7 @@ class dm extends React.Component{
             <Text style={styles.textStyle}>Please login to view your feed</Text>
           </View>
       )}
-      </ImageBackground  >
+      </ImageBackground>
       </View>
 
     )
@@ -73,6 +171,22 @@ const styles = {
     alignSelf: 'center',
     fontSize: 20,
     color: 'white',
+  },
+  container: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  contentContainer: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderColor: '#EEE',
+    padding: 5,
+  },
+  thumbnailStyle: {
+    height: 50,
+    width: 50,
+    margin: 5,
+    borderRadius: 25,
   },
 };
 

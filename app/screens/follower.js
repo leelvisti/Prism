@@ -124,11 +124,12 @@ class follower extends React.Component{
               <View key={index}>
                 <View>
                   <TouchableOpacity onPress = { () => this.props.navigation.navigate('User', {userId: item.Id})}>
-                  <Text>{item.userName}</Text>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={{color: 'white'}}>{item.userName}</Text>
 
                   <Image source = {{ uri: item.profilePic}} style={{width:100, height:100, borderRadius:50, margin: 10}}/>
 
-
+                  </View>
                   </TouchableOpacity>
 
                 </View>

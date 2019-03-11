@@ -70,7 +70,7 @@ const TabStack = createAppContainer(createBottomTabNavigator(
     }
   },
   Message: {
-    screen: chat,
+    screen: dm,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => {
         return <AntDesign name="message1" color={tintColor} size={27}/>
@@ -109,6 +109,7 @@ const MainStack = createAppContainer(createStackNavigator(
     Follower: {screen: follower},
     Following: {screen: following},
     Comment: {screen: comment},
+    Chat: {screen: chat},
     Hashtag: {screen: hashtag},
     Search: {screen: search},
     Notification: {screen: notification},

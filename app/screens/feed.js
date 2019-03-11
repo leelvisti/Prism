@@ -112,7 +112,7 @@ class feed extends React.Component{
             refresh: false,
             photoList: sortData,
           });
-                                                                                                          
+          console.log(that.state.photoList);
       }).catch(error => console.log(error));                                                          
        }
     });

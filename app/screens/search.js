@@ -120,10 +120,14 @@ class search extends React.Component{
           data={this.state.UserList}
           ItemSeparatorComponent={this.ListViewItemSeparator}
           renderItem={({ item }) => (
+            <View style={{flexDirection: 'row'}}>
             <TouchableOpacity onPress = { () => this.props.navigation.navigate('User', {userId: item.id})}>
-            <Image source={{ uri: item.profilePic }} style={styles.thumbnailStyle} />
-            <Text style={styles.textStyle}>{item.userName}</Text>
+              <View style={{alignItems: 'center'}}>
+                <Image source={{ uri: item.profilePic }} style={styles.thumbnailStyle} />
+                <Text style={styles.textStyle}>{item.userName}</Text>
+              </View>
             </TouchableOpacity>
+              </View>
           )}
           enableEmptySections={true}
           style={{ marginTop: 10 }}
@@ -192,6 +196,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     padding: 10,
+    color: 'white',
+    fontSize: 16,
   },
   textInputStyle: {
     height: 40,
@@ -201,10 +207,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   thumbnailStyle: {
-    height: 50,
-    width: 50,
+    height: 100,
+    width: 100,
     margin: 5,
-    borderRadius: 25,
+    borderRadius: 50,
   },
 });
 

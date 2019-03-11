@@ -9,7 +9,6 @@ import Input from '../components/Input.js';
 import PhotoList from '../components/PhotoList.js';
 
 
-
 class userProfile extends React.Component{
   constructor(props){
     super(props);
@@ -126,30 +125,31 @@ class userProfile extends React.Component{
         <View style={{flex: 1}}>
 
           <View style={{justifyContent: 'left',  flexDirection: 'row', margin:10 }}>
-            <Image source = {{ uri: this.state.profilePic}} style={{width:100, height:100, borderRadius:50}}/>
-              <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                <Text style= {{
-                  fontSize: 18,
-                  color: 'white',
-                  margin: 5,
-                }}>{this.state.fName}</Text>
+            <View style={{flexDirection: 'col'}}>
+              <Image source = {{ uri: this.state.profilePic}} style={{width:100, height:100, borderRadius:50}}/>
+                <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 10}}>
+                  <UnborderedButton color='#42f498' iconColor='#42f498' icon="user-follow" onPress={()=> this.followUser(this.state.userId)}/>
+                  <UnborderedButton color='#af402b' iconColor='#af402b' icon="user-unfollow"  onPress={()=> this.unfollowUser(this.state.userId)}/>
+                </View>
+            </View>
+            <View style={{flexDirection: 'column', alignItems: 'center'}}>
+              <Text style= {{
+                fontSize: 18,
+                color: 'white',
+                margin: 5,
+              }}>{this.state.fName}</Text>
                 <View style={{flexDirection: 'col'}}>
-                <View style={{flexDirection: 'row',  marginLeft: 15}}>
-                  <Button textoo='Following' onPress={()=> this.props.navigation.navigate('Following', {userId: this.state.userId})}/>
-                  <Button textoo='Followers' onPress={()=> this.props.navigation.navigate('Follower', {userId: this.state.userId})}/>
-                </View>
-                <View style={{flexDirection: 'row', marginLeft: 14, marginTop: -10}}>
-                <View style={{flexDirection: 'row', marginLeft: 20}}>
-                  <UnborderedButton color='#42f498' textoo='Follow' onPress={()=> this.followUser(this.state.userId)}/>
-                </View>
-                <View style={{flexDirection: 'row', marginLeft: 14}}>
-                  <UnborderedButton color='#af402b' textoo='Unfollow' onPress={()=> this.unfollowUser(this.state.userId)}/>
-                </View>
-                </View>
+                  <View style={{flexDirection: 'row',  marginLeft: 15}}>
+                    <Button textoo='Following' onPress={()=> this.props.navigation.navigate('Following', {userId: this.state.userId})}/>
+                    <Button textoo='Followers' onPress={()=> this.props.navigation.navigate('Follower', {userId: this.state.userId})}/>
+                  </View>
+               <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
+                 <Button textoo='Message' onPress={()=> this.props.navigation.goBack()}/>
+               </View>
                <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
                  <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>
                </View>
-                </View>
+            </View>
             </View>
           </View>
           
