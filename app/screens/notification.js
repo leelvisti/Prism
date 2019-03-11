@@ -153,7 +153,6 @@ class notification extends React.Component{
     <ImageBackground source={require('../images/gradient.jpeg')} style={{width: '100%', height: '100%'}} >
 
     <Header texto='Notifications' />
-    <Input type='file' onChange={this.fileselectedhandler}/>
     
     {this.state.nList.length == 0 ?(
       <View style={{
@@ -220,6 +219,7 @@ class notification extends React.Component{
          />
     )}
     
+    <Input type='file' onChange={this.fileselectedhandler}/>
          
     <View>
     <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>
