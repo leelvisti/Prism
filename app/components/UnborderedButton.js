@@ -19,7 +19,7 @@ const UnborderedButton = (props) => {
       paddingRight: 10,
       color: props.color
     }}>{props.textoo}</Text>
-    </TouchableOpacity>:
+    </TouchableOpacity> :
     <TouchableOpacity onPress={props.onPress} style={{
       backgroundColor: 'rgba(252,212,230,0.0)',
       borderColor: props.color,

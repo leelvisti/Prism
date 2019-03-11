@@ -144,7 +144,7 @@ class userProfile extends React.Component{
                     <Button textoo='Followers' onPress={()=> this.props.navigation.navigate('Follower', {userId: this.state.userId})}/>
                   </View>
                <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
-                 <Button textoo='Message' onPress={()=> this.props.navigation.goBack()}/>
+                 <Button textoo='Message' onPress={()=> this.props.navigation.navigate('Chat', {username: 'demo', roomID: '19515138', receiveID: 'Bob'})}/>
                </View>
                <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
                  <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>

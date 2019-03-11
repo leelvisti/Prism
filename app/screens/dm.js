@@ -131,8 +131,20 @@ class dm extends React.Component{
                       <TouchableOpacity onPress = { () => this.props.navigation.navigate('User', {userId: item.id})}>
                         <Text style={{color: '#48384f', fontSize: 16}}>@{item.userName}</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress = { () => this.props.navigation.navigate('Chat', {username: this.state.userName, roomId: item.roomId, receiveId: item.id})}>
-                        <Text style={{color: '#48384f', fontSize: 16}}>     PM</Text>
+                      <TouchableOpacity style={{
+                          borderRadius: '25px',
+                          backgroundColor: '#b08ac3',
+                          marginHorizontal: 7.5,
+                          right: 0,
+                          position: 'absolute'
+                      }} onPress = { () => this.props.navigation.navigate('Chat', {username: this.state.userName, roomId: item.roomId, receiveId: item.id})}>
+                        <Text style={{
+                          color: '#48384f', 
+                          fontSize: 16,
+                          paddingVertical: 10,
+                          paddingHorizontal: 15,
+                          color: 'white'
+                        }}>PM</Text>
                       </TouchableOpacity>
                     </View>
                   </View>

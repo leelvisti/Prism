@@ -259,4 +259,3 @@ const styles = {
     </View>
 */
 export default notification;
-
