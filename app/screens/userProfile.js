@@ -127,10 +127,6 @@ class userProfile extends React.Component{
           <View style={{justifyContent: 'left',  flexDirection: 'row', margin:10 }}>
             <View style={{flexDirection: 'col'}}>
               <Image source = {{ uri: this.state.profilePic}} style={{width:100, height:100, borderRadius:50}}/>
-                <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 10}}>
-                  <UnborderedButton color='#42f498' iconColor='#42f498' icon="user-follow" onPress={()=> this.followUser(this.state.userId)}/>
-                  <UnborderedButton color='#af402b' iconColor='#af402b' icon="user-unfollow"  onPress={()=> this.unfollowUser(this.state.userId)}/>
-                </View>
             </View>
             <View style={{flexDirection: 'column', alignItems: 'center'}}>
               <Text style= {{
@@ -143,13 +139,17 @@ class userProfile extends React.Component{
                     <Button textoo='Following' onPress={()=> this.props.navigation.navigate('Following', {userId: this.state.userId})}/>
                     <Button textoo='Followers' onPress={()=> this.props.navigation.navigate('Follower', {userId: this.state.userId})}/>
                   </View>
-               <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
+                  <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 15}}>
+                    <UnborderedButton color='#42f498' iconColor='#42f498' icon="user-follow" textoo='Follow' onPress={()=> this.followUser(this.state.userId)}/>
+                    <UnborderedButton color='#af402b' iconColor='#af402b' icon="user-unfollow"  textoo='Unfollow' onPress={()=> this.unfollowUser(this.state.userId)}/>
+                  </View>
+              {/*<View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
                  <Button textoo='Message' onPress={()=> this.props.navigation.navigate('Chat', {username: 'demo', roomID: '19515138', receiveID: 'Bob'})}/>
-               </View>
-               <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
-                 <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>
-               </View>
-            </View>
+               </View>*/}
+                 <View style={{marginLeft: 14, justifyContent: 'center', width: 210}}>
+                   <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>
+                 </View>
+              </View>
             </View>
           </View>
           

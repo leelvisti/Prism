@@ -129,6 +129,48 @@ class upload extends React.Component{
     oReq.send();
   };
   
+  uploadImageAsProf = async(uri) => {
+    
+    var that = this;
+    var userid = f.auth().currentUser.uid;
+    var photoId = this.state.photoId;
+    
+    var re = /(?:\.([^.]+))?$/;
+    var ext = re.exec(uri)[1];
+    this.setState({
+      currentFileType: ext,
+      uploading: true
+    });
+    
+    var FilePath = photoId + "." + that.state.currentFileType;
+    
+    const oReq = new XMLHttpRequest();
+    oReq.open("GET", uri, true);
+    oReq.responseType = "blob";
+    oReq.onload = () => {
+      const blob = oReq.response;
+      
+      var uploadTask = storage.ref("User/" + userid + "/profile").child(FilePath).put(blob);
+      uploadTask.on("state_changed", function(snapshot) {
+        var progress = ((snapshot.bytesTransferred / snapshot.totalBytes) *100).toFixed(0);
+        console.log("Upload is " + progress + "% complete");
+        that.setState({
+          progress: progress
+        });
+      }, function(error) {
+        console.log("error with upload - " + error);
+      }, function() {
+        //complete
+        that.setState({ progress: 100 });
+        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+          console.log(downloadURL);
+          that.storeIntoProfDB(downloadURL);
+        });
+      });
+    };
+    oReq.send();
+  };
+  
   publishing = () =>{
     if (this.state.uploading == false){
       if (this.state.caption != ''){
@@ -137,6 +179,27 @@ class upload extends React.Component{
         alert('Please enter a caption for your post!')
       }
     }
+  };
+  
+  changeProfile = () =>{
+    if (this.state.uploading == false){
+      this.uploadImageAsProf(this.state.uri);
+    }
+  };
+  
+  storeIntoProfDB = (photoUrl) => {
+    var userId = f.auth().currentUser.uid;
+    //Update database
+    database.ref("/Users/" + userId).child('profilePic').set(photoUrl);
+ 
+    alert("Profile Picture Uploaded Successfully!");
+ 
+    this.setState({
+      uploading: false,
+      selected: false,
+      caption: '',
+      uri: '',
+    });
   };
   
   storeIntoDB = (photoUrl) => {
@@ -195,6 +258,9 @@ class upload extends React.Component{
     });
   };
   
+  cancel = () => {
+    this.props.navigation.goBack();
+  }
   
   
   componentDidMount = () =>{
@@ -231,7 +297,7 @@ class upload extends React.Component{
                   source = {{uri: this.state.uri}}
                   style = {{marginTop: 10, resizeMode: 'cover', width:'100%', height:275}}
                 />
-                <Text style ={{marginTop:5}}>Caption:</Text>
+                <Text style ={{marginTop:5, fontSize: 16}}>Caption:</Text>
                 <TextInput
                   editable = {true}
                   placeholder = {'enter caption ...\nadd hashtag #example #hashtag'}
@@ -239,11 +305,13 @@ class upload extends React.Component{
                   multiline = {true}
                   numberOfLines = {5}
                   onChangeText = {(text) => this.setState({caption: text})}
-                  style = {{marginVertical:10, height:100, padding: 5, borderWidth:1, borderColor: 'black', borderRadius:3}}
+                  style = {{backgroundColor: 'white',marginVertical:10, height:100, padding: 5, borderWidth:1, borderColor: 'black', borderRadius:3}}
                 />
 
                                             
                 <Button textoo='Publish Post' onPress={()=> this.publishing()}/>
+                <Button textoo='Update Profile Picture' onPress={()=> this.changeProfile()}/>
+                <Button textoo='Cancel' onPress={()=> this.cancel()}/>
                 { this.state.uploading == true ?(
                   <View>
                     <Text>upload... {this.state.progress}% done</Text>

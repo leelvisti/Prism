@@ -201,17 +201,34 @@ class feed extends React.Component{
         { this.state.loggedin == true ?(
       
           <View>
-          <View>
-          <Header texto='Feed' />
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 10, padding: 5, marginHorizontal: 5, borderRadius: 25, backgroundColor: '#66556d'}}>
-          <TouchableOpacity onPress = { () => this.props.navigation.navigate('Search')}>
-            <Ionicons name="ios-search" size={20} color={'white'} style={{marginRight: 5}}>
-            <Text style={{ marginRight: 10, textAlign: 'center', color: 'white'}}>  Search</Text>
-            </Ionicons>
-          </TouchableOpacity>
-          </View>
-                                        
+            <View style={{
+              backgroundColor: 'white',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 60,
+              paddingTop: 25,
+              shadowColor: 'black',
+              shadowOffset: { width: 2, height: 6 },
+              shadowOpacity: 0.5,
+            }}>
+              <View style={{position: 'absolute', left: 30, top: 35}}>
+                <TouchableOpacity onPress = { () => this.props.navigation.navigate('Search')}>
+                  <Ionicons name='ios-search' size={20}/>
+                </TouchableOpacity>
+              </View>
+              <Text style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: '#4b9faa',
+              fontFamily: 'Arial',
+              }}>Feed</Text>
+              <View style={{position: 'absolute', right: 30, top: 35}}>
+                <TouchableOpacity>
+                  <FontAwesome name='refresh' size={20}/>
+                </TouchableOpacity>
+              </View>
+            </View>
+
           <FlatList
             refreshing = {this.state.refresh}
             onRefresh = {this.loadNew}

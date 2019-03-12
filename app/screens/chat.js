@@ -1,7 +1,96 @@
-
-
-import React from 'react';
+import React from "react";
 import { TouchableOpacity, Flatlist, StyleSheet, Text, View, Image ,ImageBackground} from 'react-native';
+import { GiftedChat } from "react-native-gifted-chat";
+import Backend from "../../config/Backend";
+import Header from '../components/Header.js';
+import Button from '../components/Button.js';
+class chat extends React.Component{
+  
+  state = {
+    messages: []
+  };
+  
+  checkParams = () => {
+    var params = this.props.navigation.state.params;
+    if (params){
+      if (params.roomId){
+        this.setState({
+          username: params.username,
+          roomId: params.roomId,
+          un: params.un,
+        })
+        Backend.setRef(params.roomId);
+      }
+    }
+  }
+  onPress = () => {
+    this.props.navigation.goBack();
+  }
+
+  componentWillMount() {}
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <View style={{
+          backgroundColor: 'white',
+          height: 80,
+          paddingTop: 25,
+          shadowColor: 'black',
+          shadowOffset: {width: 2, height: 6},
+          shadowOpacity: 0.5,
+        }}>
+          <View style={{zIndex: 1, positon: 'absolute', left: 20, top: 25}}>
+            <TouchableOpacity onPress={this.onPress}>
+              <Text style={{color: '#b08ac3', fontSize: 20}}>Back</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{
+            alignItems: 'center',
+            justififyContent: 'center',
+           }}>
+            <Text style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              color: '#4b9faa',
+              fontFamily: 'Arial',
+            }}>{'@' + this.state.un}</Text>
+          </View>
+        </View>
+      <GiftedChat
+        messages={this.state.messages}
+        onSend={message => {
+          Backend.sendMessage(message);
+        }}
+        user={{
+          _id: Backend.getUid(),
+          name: this.state.username
+        }}
+      />
+      </View>
+    );
+  
+  }
+  componentDidMount() {
+    this.checkParams();
+    Backend.loadMessages(message => {
+      this.setState(previousState => {
+        return {
+          messages: GiftedChat.append(previousState.messages, message)
+        };
+      });
+    });
+  }
+  componentWillUnmount() {
+    Backend.closeChat();
+  }
+}
+
+export default chat;
+
+
+/*
+import React from 'react';
+import { Flatlist, StyleSheet, Text, View, Image ,ImageBackground} from 'react-native';
 import {f, auth, database, storage, Fire } from '../../config/config.js';
 import Header from '../components/Header.js'
 import Button from '../components/Button.js'
@@ -13,6 +102,7 @@ const CHATKIT_TOKEN_PROVIDER_ENDPOINT = 'https://us1.pusherplatform.io/services/
 const CHATKIT_INSTANCE_LOCATOR = 'v1:us1:88262378-4c28-4701-91ad-931f2ca07d4c';
 const CHATKIT_ROOM_ID = '19515138';
 const CHATKIT_USER_NAME = 'demo';
+
 
 
 type Props = {
@@ -70,10 +160,6 @@ class chat extends React.Component{
       messages: GiftedChat.append(previousState.messages, incomingMessage),
     }));
   };
-  
-  onPress = () => {
-    this.props.navigation.goBack();
-  }
 
   onSend = (messages = []) => {
     messages.forEach(message => {
@@ -91,49 +177,20 @@ class chat extends React.Component{
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <View style={{
-          backgroundColor: 'white',
-          height: 80,
-          paddingTop: 25,
-          shadowColor: 'black',
-          shadowOffset: {width: 2, height: 6},
-          shadowOpacity: 0.5,
-        }}>
-          <View style={{positon: 'absolute', left: 20, top: 25}}>
-            <TouchableOpacity onPress={this.onPress}>
-              <Text style={{color: '#b08ac3', fontSize: 20}}>Back</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{
-            alignItems: 'center',
-            justififyContent: 'center',
-           }}>
-            <TouchableOpacity onPress={this.onPress}>
-            <Text style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: '#4b9faa',
-              fontFamily: 'Arial',
-            }}>{'@' + CHATKIT_USER_NAME}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       <GiftedChat
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
-        user={{
+         user={{
           _id: CHATKIT_USER_NAME
         }}
       />
-      </View>
     );
   }
 }
 export default chat;
 
 
-/*
+
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'; // 0.3.0
 import {f, auth, database, storage, firebaseSvc } from '../../config/config.js';

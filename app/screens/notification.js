@@ -152,7 +152,28 @@ class notification extends React.Component{
     <View style = {{flex:1}}>
     <ImageBackground source={require('../images/gradient.jpeg')} style={{width: '100%', height: '100%'}} >
 
-    <Header texto='Notifications' />
+    <View style={{
+      backgroundColor: 'white',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 60,
+      paddingTop: 25,
+      shadowColor: 'black',
+      shadowOffset: { width: 2, height: 6 },
+      shadowOpacity: 0.5,
+    }}>
+      <Text style={{
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#4b9faa',
+      fontFamily: 'Arial',
+      }}>Notifications</Text>
+      <View style={{position: 'absolute', right: 30, top: 35}}>
+        <TouchableOpacity>
+          <FontAwesome name='refresh' size={20}/>
+        </TouchableOpacity>
+      </View>
+    </View>
     
     {this.state.nList.length == 0 ?(
       <View style={{

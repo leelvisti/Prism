@@ -7,14 +7,18 @@ import Button from '../components/Button.js';
 import UnborderedButton from '../components/UnborderedButton';
 import Input from '../components/Input.js';
 import PhotoList from '../components/PhotoList.js';
-
+import Upload from '../screens/upload';
 
 class profile extends React.Component{
+  upload: Upload;
+
   constructor(props){
     super(props);
     this.state = {
       loggedin: false,
     }
+
+    this.upload = new Upload(props);
   }
 
   logout = () => {
@@ -93,50 +97,87 @@ class profile extends React.Component{
   }
 
   render(){
+    
     return(
       <View style = {{flex:1}}>
       <ImageBackground source={require('../images/gradient.jpeg')} style={{width: '100%', height: '100%'}} >
 
         { this.state.loggedin == true ? (
 
-          <View style={{flex:1 ,justifyContent: 'center', flexDirection: 'column'}}>
-          <View >
-            <Header texto='Profile' />
-          </View>
+          <View style={{flex:1}}>
             { this.state.editingProf == true ? (
-              <View style={{flexDirection: 'column',justifyContent: 'center',  padding: 5, flex: 1    }}>
-                <Text>Editing Profile</Text>
-
-                <Text>First Name:</Text>
-
-                <TextInput
-                  editable = {true}
-                  placeholder = {'enter your first name'}
-                  onChangeText = {(text) => this.setState({fName: text})}
-                  value = {this.state.fName}
-                  style = {{borderWidth:1, borderColor: 'black'}}
-                />
-
-                <Text>User Name:</Text>
-
-                <TextInput
-                  editable = {true}
-                  placeholder = {'enter your first name'}
-                  onChangeText = {(text) => this.setState({userName: text})}
-                  value = {this.state.userName}
-                  style = {{borderWidth:1, borderColor: 'black'}}
-                />
-
-                <View style={{ flexDirection: 'col', marginTop: 10, justifyContent: 'center'   }} >
+              <View style={{flex: 1}}>
+                <View style={{
+                  backgroundColor: 'white',
+                  height: 60,
+                  paddingTop: 25,
+                  shadowColor: 'black',
+                  shadowOffset: {width: 2, height: 6},
+                  shadowOpacity: 0.5,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <View style={{zIndex: 1, marginRight: 70}}>
+                    <TouchableOpacity onPress={()=> this.setState({editingProf: false})}>
+                      <Text style={{color: '#b08ac3', fontSize: 20}}>Back</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      color: '#4b9faa',
+                      fontFamily: 'Arial',
+                    }}>Edit Profile</Text>
+                  </View>
+                  <View style={{zIndex: 1, marginLeft: 70}}>
+                    <TouchableOpacity onPress={()=> this.writeUserData()}>
+                      <Text style={{color: '#b08ac3', fontSize: 20}}>Save</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={{alignItems: 'center', justifyContent: 'center', margin: 10}}>
+                   <Image source = {{ uri: this.state.profilePic}} style={{width:120, height:120, borderRadius:60, marginTop: 10, marginBottom: 5}}/>
+                   <UnborderedButton color='white' textoo='Edit Profile Picture'/>
+                </View>
+                <View style={{marginBottom: 20}}>
+                  <View style={{marginHorizontal: 20}}>
+                    <View style={{marginLeft: 10, marginBottom: 5}}>
+                      <Text style={{color: 'rgba(255,255,255,0.75)', fontSize: 16}}>First Name</Text>
+                    </View>
+                  <TextInput
+                    editable = {true}
+                    placeholder = {this.state.fName !== null ? this.state.fName : 'Enter your first name'}
+                    onChangeText = {(text) => this.setState({fName: text})}
+                    style = {{color: 'rgba(255,255,255,0.75)',paddingLeft: 20,lineHeight: 30,height: 40,borderRadius: 20, borderWidth:1, borderColor: 'rgba(252,212,230,0.12)', backgroundColor: 'rgba(0,0,0,0.1)'}}
+                  />
+                </View>
+                <View style={{marginTop: 20}}>
+                  <View style={{marginHorizontal: 20}}>
+                    <View style={{marginLeft: 10, marginBottom: 5}}>
+                      <Text style={{color: 'rgba(255,255,255,0.75)', fontSize: 16}}>User Name</Text>
+                    </View>
+                  <TextInput
+                    editable = {true}
+                    placeholder = {this.state.userName !== null ? this.state.userName : 'Enter your user name'}
+                    onChangeText = {(text) => this.setState({userName: text})}
+                    style = {{color: 'rgba(255,255,255,0.75)', paddingLeft: 20,lineHeight: 30,height: 40,borderRadius: 20, borderWidth:1, borderColor: 'rgba(252,212,230,0.12)', backgroundColor: 'rgba(0,0,0,0.1)'}}
+                  />
+                </View>
+              </View>
+            </View>
+              {/*                <View style={{ flexDirection: 'col', marginTop: 10, justifyContent: 'center'   }} >
                 <Button textoo='Save' onPress={()=> this.writeUserData()}/>
-                <Button textoo='Go Back' onPress={()=> this.setState({editingProf: false})}/>
+                <Button textoo='Back' onPress={()=> this.setState({editingProf: false})}/>
                 </View>
-
-                </View>
+              */}
+          </View>
 
               ) : (
                 <View style={{flex: 1}}>
 
+            <Header texto='Profile' />
                    <View style={{justifyContent: 'left', margin: 10, flexDirection: 'row',}}>
                      <View style={{flexDirection: 'col'}}>
                        <View style={{alignItems: 'center'}}>
