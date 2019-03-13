@@ -6,6 +6,7 @@ import {f, auth, database, storage } from './config/config.js';
 import feed from './app/screens/feed.js';
 import upload from './app/screens/upload.js';
 import profile from './app/screens/profile.js';
+import uploadProfilePic from './app/screens/uploadOnlyProfilePic.js';
 import dm from './app/screens/dm.js';
 import chat from './app/screens/chat.js';
 import hashtag from './app/screens/hashtag.js';
@@ -114,6 +115,7 @@ const MainStack = createAppContainer(createStackNavigator(
     Search: {screen: search},
     Notification: {screen: notification},
     Post: {screen: post},
+    UploadProfilePic: {screen: uploadProfilePic},
 },
 {
     initialRouteName: 'Home',
@@ -135,7 +137,7 @@ export default class App extends React.Component {
 
   constructor(props){
     super(props);
-    //console.disableYellowBox = true;
+    console.disableYellowBox = true;
   }
   
   render(){

@@ -17,6 +17,7 @@ class PhotoList extends React.Component{
     this.state = {
       PhotoList: [],
       refresh: false,
+      empty: true,
     }
   }
   
@@ -81,11 +82,16 @@ class PhotoList extends React.Component{
     
     loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
       const exists = (snapshot.val() !== null);
-      if (exists) data = snapshot.val();
+      if (exists){
+        data = snapshot.val();
+        that.setState({empty:false});
         var photoList = that.state.photoList;
         for(var photo in data) {
           that.addToList(photoList, data, photo);
-      }
+        }
+       }else{
+         that.setState({empty:true});
+       }
       console.log(data);
     }).catch(error => console.log(error));
 
@@ -137,7 +143,13 @@ class PhotoList extends React.Component{
 render(){
     return(
       <View style = {{flex: 1}}>
-
+        {this.state.empty == true ?(
+          <View style = {{justifyContent: 'center',alignItems: 'center', flex: 1}}>
+           <TouchableOpacity onPress={()=> this.loadNew}>
+           <Text style={{fontWeight: 'bold', color: 'white', fontSize:15, textAlign: 'center', textAlignVertical: 'center'}}> No Posts Found </Text>
+           </TouchableOpacity>
+          </View>
+           ) :(
           <FlatList
             refreshing = {this.state.refresh}
             onRefresh = {this.loadNew}
@@ -169,6 +181,7 @@ render(){
 
             )}
           />
+        )}
         </View>
 
     )

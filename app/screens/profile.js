@@ -7,18 +7,13 @@ import Button from '../components/Button.js';
 import UnborderedButton from '../components/UnborderedButton';
 import Input from '../components/Input.js';
 import PhotoList from '../components/PhotoList.js';
-import Upload from '../screens/upload';
 
 class profile extends React.Component{
-  upload: Upload;
-
   constructor(props){
     super(props);
     this.state = {
       loggedin: false,
     }
-
-    this.upload = new Upload(props);
   }
 
   logout = () => {
@@ -73,7 +68,6 @@ class profile extends React.Component{
 
     this.setState({editingProf:false});
   }
-
 
   componentDidMount = () =>{
     var that = this;
@@ -139,7 +133,7 @@ class profile extends React.Component{
                 </View>
                 <View style={{alignItems: 'center', justifyContent: 'center', margin: 10}}>
                    <Image source = {{ uri: this.state.profilePic}} style={{width:120, height:120, borderRadius:60, marginTop: 10, marginBottom: 5}}/>
-                   <UnborderedButton color='white' textoo='Edit Profile Picture'/>
+                   <UnborderedButton color='white' textoo='Edit Profile Picture' onPress={() => this.props.navigation.navigate('UploadProfilePic', {userId: this.state.userId})}/>
                 </View>
                 <View style={{marginBottom: 20}}>
                   <View style={{marginHorizontal: 20}}>
