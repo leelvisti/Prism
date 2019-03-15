@@ -4,12 +4,12 @@ import firebase from 'firebase';
 //https://firebase.google.com/docs/web/setup
 
 const config = {
-    apiKey: "AIzaSyBwP-0JH5KoO6MYY29Oyh8z_GYCckh5emc",
-    authDomain: "newprism-a8e35.firebaseapp.com",
-    databaseURL: "https://newprism-a8e35.firebaseio.com",
-    projectId: "newprism-a8e35",
-    storageBucket: "newprism-a8e35.appspot.com",
-    messagingSenderId: "659901126874"
+    apiKey: "AIzaSyAREummRY6snV2Vojk5zudZeeeT-YiCamE",
+    authDomain: "myprism-8f3e3.firebaseapp.com",
+    databaseURL: "https://myprism-8f3e3.firebaseio.com",
+    projectId: "myprism-8f3e3",
+    storageBucket: "myprism-8f3e3.appspot.com",
+    messagingSenderId: "318156582378"
 };
 
 firebase.initializeApp(config);

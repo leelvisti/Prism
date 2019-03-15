@@ -45,6 +45,7 @@ class search extends React.Component{
   
   firstSearch() {
     this.state.UserList = [];
+    this.state.hashtagList = [];
     this.searchDirectory();
   }
   
@@ -173,7 +174,8 @@ class search extends React.Component{
       
     }else{
       that.setState({
-        hashtagMode: false
+        hashtagMode: false,
+        UserList: []
       });
       database.ref('Users/').orderByChild('userName').startAt(searchText).endAt(searchText+ '\uf8ff').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
@@ -263,7 +265,7 @@ class search extends React.Component{
         //returnKeyType='search'
         lightTheme
         round
-           placeholder='search username or #hashtag...'
+        placeholder='search username or #hashtag...'
         onChangeText={(text) => this.setState({search:text})}
         value = {this.state.search}
         onSubmitEditing={() => this.firstSearch()}

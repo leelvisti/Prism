@@ -89,7 +89,7 @@ class notification extends React.Component{
           }
           var sortData = [].concat(nList);
           sortData.sort(function(a, b){
-            return a.timestamp2 > b.timestamp2;
+            return a.timestamp2 < b.timestamp2;
           });
           that.setState({
             refresh: false,
@@ -169,7 +169,7 @@ class notification extends React.Component{
       fontFamily: 'Arial',
       }}>Notifications</Text>
       <View style={{position: 'absolute', right: 30, top: 35}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress = { () => this.reloadNoti()}>
           <FontAwesome name='refresh' size={20}/>
         </TouchableOpacity>
       </View>

@@ -37,22 +37,22 @@ class dm extends React.Component{
           that.setState({userName: data.userName});
      }
     });
-    that.fetchFollowingList();
+    this.fetchFollowingList();
   }
   
   addToList = (FollowingList, u, data) =>{
     var that = this;
     var fObj = data[u];
     var currentUID = f.auth().currentUser.uid;
-    if (!!fObj.roomId){
-      var roomId =fObj.roomId;
-    }else{
-      var roomId = that.createId();
-      database.ref('Users/'+currentUID+'/Following/'+u).child('roomId').set(roomId);
-      database.ref('Users/'+u+'/Following/'+currentUID).child('roomId').set(roomId);
-    }
     database.ref('Users/' + u + '/Following').once('value', function(snapshot){
        if (snapshot.hasChild(currentUID)){
+        if (!!fObj.roomId){
+          var roomId =fObj.roomId;
+        }else{
+          var roomId = that.createId();
+          database.ref('Users/'+currentUID+'/Following/'+u).child('roomId').set(roomId);
+          database.ref('Users/'+u+'/Following/'+currentUID).child('roomId').set(roomId);
+        }
         database.ref('Users').child(u).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if (exists) data = snapshot.val();
@@ -129,7 +129,7 @@ class dm extends React.Component{
         fontFamily: 'Arial',
         }}>Message</Text>
         <View style={{position: 'absolute', right: 30, top: 35}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress = { () => this.reload()}>
             <FontAwesome name='refresh' size={20}/>
           </TouchableOpacity>
         </View>

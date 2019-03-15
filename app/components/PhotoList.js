@@ -140,6 +140,10 @@ class PhotoList extends React.Component{
     });
   }
   
+  handleHashTagPress= (hashtag, matchIndex) =>{
+    this.props.navigation.navigate('Hashtag', {hashtag: hashtag});
+  }
+  
 render(){
     return(
       <View style = {{flex: 1}}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, ActivityIndicator,Flatlist, StyleSheet, Text, View, Image,ImageBackground } from 'react-native';
+import {TextInput, ActivityIndicator,Flatlist,ScrollView, KeyboardAvoidingView,StyleSheet, Text, View, Image,ImageBackground } from 'react-native';
 import {Permissions, ImagePicker} from 'expo';
 import {f, auth, database, storage } from '../../config/config.js';
 import Header from '../components/Header.js'
@@ -293,6 +293,7 @@ class upload extends React.Component{
             { this.state.selected == true ?(
               <View style = {{flex:1}}>
                 <View style = {{padding:5}}>
+                <ScrollView keyboardDismissMode='interactive'>
                 <Image
                   source = {{uri: this.state.uri}}
                   style = {{marginTop: 10, resizeMode: 'cover', width:'100%', height:275}}
@@ -307,11 +308,10 @@ class upload extends React.Component{
                   onChangeText = {(text) => this.setState({caption: text})}
                   style = {{backgroundColor: 'white',marginVertical:10, height:100, padding: 5, borderWidth:1, borderColor: 'black', borderRadius:3}}
                 />
-
-                                            
+                        
                 <Button textoo='Publish Post' onPress={()=> this.publishing()}/>
-                <Button textoo='Update Profile Picture' onPress={()=> this.changeProfile()}/>
                 <Button textoo='Cancel' onPress={()=> this.cancel()}/>
+               
                 { this.state.uploading == true ?(
                   <View>
                     <Text>upload... {this.state.progress}% done</Text>
@@ -320,9 +320,10 @@ class upload extends React.Component{
                   <View></View>
                 )}
                                             
-        
+              </ScrollView>
               </View>
               </View>
+               
             ) : (
               <View style={{alignSelf: 'center', justifyContent: 'center', flex: 2}}>
               <Button textoo='Select Photo to Upload' onPress={()=> this.selectImage()}/>

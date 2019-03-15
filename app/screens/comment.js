@@ -14,7 +14,8 @@ class comment extends React.Component{
     super(props);
     this.state = {
       loggedin: false,
-      commentList: []
+      commentList: [],
+      comment: ''
     }
   }
   
@@ -239,12 +240,12 @@ class comment extends React.Component{
            </View>
          
          </View>
-    </KeyboardAvoidingView>
+    
          
     <View>
     <Button textoo='Back' onPress={()=> this.props.navigation.goBack()}/>
     </View>
-
+    </KeyboardAvoidingView>
 
     </ImageBackground>
     </View>

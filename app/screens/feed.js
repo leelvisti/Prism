@@ -188,8 +188,9 @@ class feed extends React.Component{
     });
   }
 
-  handleHashTagPress= () =>
-  this.props.navigation.navigate('hashtag');
+  handleHashTagPress= (hashtag, matchIndex) =>{
+    this.props.navigation.navigate('Hashtag', {hashtag: hashtag});
+  }
   
   
   render(){
@@ -223,7 +224,7 @@ class feed extends React.Component{
               fontFamily: 'Arial',
               }}>Feed</Text>
               <View style={{position: 'absolute', right: 30, top: 35}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress = { () => this.loadNew() }>
                   <FontAwesome name='refresh' size={20}/>
                 </TouchableOpacity>
               </View>
